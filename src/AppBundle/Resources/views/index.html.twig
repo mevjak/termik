@@ -4,21 +4,7 @@
 <div class="container">
     <h1 class="text-center">Aktuální stav</h1>
     {% for sensor in sensors %}
-        <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">
-                    <h3 style="margin: 0">{{ sensor.shortName | capitalize }}</h3>
-                </div>
-                <div class="panel-body text-center">
-                    <b style="font-size: 36pt">
-                        {{ sensor.lastRecord.temperature | number_format(1, ',', ' ')}}&deg;C
-                    </b>
-                </div>
-                <div class="panel-footer text-center">
-                    <small>{{ sensor.lastRecord.createdAt | date('d.m.Y H:i:s') }}</small>
-                </div>
-            </div>
-        </div>
+        {{ include('AppBundle::_sensor.html.twig', { 'sensor': sensor }) }}
     {% endfor %}
 </div>
 {% endblock %}
