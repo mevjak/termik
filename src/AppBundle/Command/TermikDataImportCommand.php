@@ -8,6 +8,8 @@ use AppBundle\Entity\Record;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -55,8 +57,18 @@ class TermikDataImportCommand extends ContainerAwareCommand
             ->name($this->getContainer()->getParameter('termik.import.file_regex'))
             ->sortByName();
 
+        /** @var SplFileInfo $file */
         foreach ($finder as $file) {
-            $this->importFile($file, $output);
+            try {
+                $this->importFile($file, $output);
+            }
+            catch (\Exception $e) {
+                $output->writeln(sprintf('Error: %s', $e->getMessage()));
+            }
+            finally {
+                $fs = new Filesystem();
+                $fs->rename($file->getRealPath(), $file->getRealPath() . DIRECTORY_SEPARATOR . 'tep_'.  date('YmdHis') . '.txx');
+            }
         }
     }
 
