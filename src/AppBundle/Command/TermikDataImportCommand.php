@@ -67,7 +67,7 @@ class TermikDataImportCommand extends ContainerAwareCommand
             }
             finally {
                 $fs = new Filesystem();
-                $fs->rename($file->getRealPath(), $file->getPath() . DIRECTORY_SEPARATOR . 'tep_'.  date('YmdHis') . '.txx');
+                $fs->rename($file->getRealPath(), $file->getPath() . DIRECTORY_SEPARATOR . 'tep_'.  date('YmdHis') . '.bak');
             }
         }
     }
