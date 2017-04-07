@@ -5,7 +5,7 @@ Simple temperature data collecting tool.
 
 ## Config
 
-Application configuration file `D:\Proj\termik\app\config\parameters.yml`:
+Application configuration file `/var/www/termik/app/config/parameters.yml`:
 
 - `termik.import.file_path: '/home/fwguard'`
 - `termik.import.file_regex: '#^tep.*\.txt$#'`
@@ -16,6 +16,7 @@ Application configuration file `D:\Proj\termik\app\config\parameters.yml`:
 ### Drop/Create DB
 
 ````
+cd /var/www/termik
 su www-data -s /bin/bash -c '/usr/bin/php bin/console doctrine:schema:drop --force'
 su www-data -s /bin/bash -c '/usr/bin/php bin/console doctrine:schema:create'
 ````
@@ -23,6 +24,7 @@ su www-data -s /bin/bash -c '/usr/bin/php bin/console doctrine:schema:create'
 ### Clear cache
 
 ````
+cd /var/www/termik
 su www-data -s /bin/bash -c '/usr/bin/php bin/console ca:c --env=dev'
 su www-data -s /bin/bash -c '/usr/bin/php bin/console ca:c --env=prod'
 ````
@@ -30,7 +32,7 @@ su www-data -s /bin/bash -c '/usr/bin/php bin/console ca:c --env=prod'
 ### Import data (via cron)
 
 ````
-su www-data -s /bin/bash -c '/usr/bin/php bin/console termik:data-import --env=prod'
+su www-data -s /bin/bash -c '/usr/bin/php /var/www/termik/bin/console termik:data-import --env=prod'
 ````
 
 After import imported file is renamed to `tep_<current-timestamp>.bak`.
